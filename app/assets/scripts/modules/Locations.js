@@ -1,4 +1,4 @@
-var locations = [
+export default [
             {title: 'St-Viateur Bagel', location: {lat: 45.526075, lng: -73.6054533}},
             {title: 'Temps libre Mile-End', location: {lat:45.5283049, lng: -73.5980465}},
             {title: 'Théâtre Rialto', location: {lat:45.5236231, lng: -73.6069876 }},

@@ -1,3 +1,5 @@
+import locations from './Locations';
+
 var map;
 
 // Create a new blank array for all the listing markers.
@@ -243,3 +245,10 @@ function makeMarkerIcon(markerColor) {
         new google.maps.Size(21, 34));
     return markerImage;
 }
+
+window.initMap = initMap;
+
+export default {
+    markers: markers,
+    initMap: initMap
+};

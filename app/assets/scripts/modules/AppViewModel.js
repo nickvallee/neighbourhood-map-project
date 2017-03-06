@@ -1,7 +1,10 @@
 import ko from 'knockout';
 import loadWikiData from '../modules/Wikipedia';
 
-var wikiSearch = "St-Viateur Bagel";
+import locations from './Locations';
+import map from './Map';
+
+var markers = map.markers;
 
 var Location = function(data) {
     this.title = ko.observable(data.title);
