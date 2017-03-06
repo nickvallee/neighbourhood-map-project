@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-function loadWikiData(search, article) {
+function loadWikiData(search, array) {
 ///WIKIPEDIA API
 
 
@@ -22,7 +22,7 @@ $.ajax(wikiLink, {
         var formattedLink = '<a href="' +wikiArticleURL+ '">' + wikiHeader+ '</a>'
 
         if(wikiArticleURL != undefined) {
-            article.push(formattedLink);
+            array.push(wikiArticleURL);
         }
 
     };

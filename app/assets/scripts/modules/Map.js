@@ -1,4 +1,5 @@
 import locations from './Locations';
+import loadWikiData from './Wikipedia';
 
 var map;
 
@@ -126,18 +127,26 @@ var markers = [];
     var highlightedIcon = makeMarkerIcon('ed1509');
     var largeInfowindow = new google.maps.InfoWindow();
     // The following group uses the location array to create an array of markers on initialize.
+
+
     for (var i = 0; i < locations.length; i++) {
         // Get the position from the location array.
         var position = locations[i].location;
         var title = locations[i].title;
+        //
+        var wikiArticles = [];
+
+        loadWikiData(title, wikiArticles);
         // Create a marker per location, and put into markers array.
         var marker = new google.maps.Marker({
             position: position,
             title: title,
             animation: google.maps.Animation.DROP,
             icon: defaultIcon,
-            id: i
+            id: i,
+            wikiArticles: wikiArticles
         });
+
         // Push the marker to our array of markers.
         markers.push(marker);
         // Create an onclick event to open the large infowindow at each marker.
@@ -176,12 +185,30 @@ function populateInfoWindow(marker, infowindow) {
         // In case the status is OK, which means the pano was found, compute the
         // position of the streetview image, then calculate the heading, then get a
         // panorama from that and set the options
+
+        //an empty array that will become populated with
+        //wikipedia articles based on location.
+
         function getStreetView(data, status) {
             if (status == google.maps.StreetViewStatus.OK) {
                 var nearStreetViewLocation = data.location.latLng;
                 var heading = google.maps.geometry.spherical.computeHeading(
                     nearStreetViewLocation, marker.position);
-                infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+
+                //will become populated if there are Wikipedia articles to find
+                var infoWindowTitle = marker.title;
+
+                //checks if the wikiArticle array is empty
+                //if not, sets infoWindow to hyperlink to Wikipedia Article
+                function checkForArticles() {
+                    if(marker.wikiArticles.length > 0) {
+                        infoWindowTitle = '<a href="' + marker.wikiArticles[0]+ '">' + marker.title + '</a>';
+                    }
+                };
+
+                checkForArticles();
+
+                infowindow.setContent('<div>' + infoWindowTitle + '</div><div id="pano"></div>');
                 var panoramaOptions = {
                     position: nearStreetViewLocation,
                     pov: {
@@ -192,7 +219,7 @@ function populateInfoWindow(marker, infowindow) {
                 var panorama = new google.maps.StreetViewPanorama(
                     document.getElementById('pano'), panoramaOptions);
             } else {
-                infowindow.setContent('<div>' + marker.title + '</div>' +
+                infowindow.setContent('<div>' + marker.title + marker.wikiArticles[0] +'</div>' +
                     '<div>No Street View Found</div>');
             }
         }
@@ -250,5 +277,6 @@ window.initMap = initMap;
 
 export default {
     markers: markers,
-    initMap: initMap
+    initMap: initMap,
+    toggleBounce: toggleBounce
 };

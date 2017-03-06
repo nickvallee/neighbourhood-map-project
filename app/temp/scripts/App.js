@@ -16218,13 +16218,13 @@
 
 	var _knockout2 = _interopRequireDefault(_knockout);
 
-	var _Wikipedia = __webpack_require__(6);
-
-	var _Wikipedia2 = _interopRequireDefault(_Wikipedia);
-
-	var _Locations = __webpack_require__(7);
+	var _Locations = __webpack_require__(6);
 
 	var _Locations2 = _interopRequireDefault(_Locations);
+
+	var _Wikipedia = __webpack_require__(7);
+
+	var _Wikipedia2 = _interopRequireDefault(_Wikipedia);
 
 	var _Map = __webpack_require__(8);
 
@@ -16238,14 +16238,9 @@
 	    this.title = _knockout2.default.observable(data.title);
 	    this.location = _knockout2.default.observable(data.location);
 	    this.wikiArticle = _knockout2.default.observableArray([]);
+	    this.order = _knockout2.default.observable();
 
 	    this.visible = _knockout2.default.observable(true);
-	};
-
-	var Marker = function Marker(data) {
-	    this.title = _knockout2.default.observable(data.title);
-	    this.visible = _knockout2.default.observable(data.visible);
-	    this.id = _knockout2.default.observable(data.id);
 	};
 
 	var AppViewModel = function AppViewModel() {
@@ -16264,9 +16259,25 @@
 	        var article = locationItem.wikiArticle();
 
 	        (0, _Wikipedia2.default)(title, article);
+
+	        //count increments as order is recorded into the obserable array
 	    });
 
-	    this.currentLocation = _knockout2.default.observable(this.locationList()[0]);
+	    self.count = 0;
+
+	    self.locationList().forEach(function (locationItem) {
+	        locationItem.order(self.count);
+	        self.count += 1;
+	    });
+
+	    self.showInfo = function (locationItem) {
+	        //toggleBounce(markers[locationItem.order]);
+	        console.log(markers[locationItem.order()]);
+	        var currentMarker = markers[locationItem.order()];
+	        var currentID = currentMarker.id;
+	        //toggleBounce(markers[currentMarker.id]);
+	        (0, _Map2.default)(currentMarker.id);
+	    };
 	};
 
 	var vm = new AppViewModel();
@@ -16281,8 +16292,6 @@
 	        self.locationList().forEach(function (locationItem) {
 
 	            locationItem.visible(true);
-
-	            console.log('BLAH');
 	        });
 
 	        for (var i = 0; i < self.locationList().length; i++) {
@@ -16319,6 +16328,17 @@
 
 /***/ },
 /* 6 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	            value: true
+	});
+	exports.default = [{ title: 'St-Viateur Bagel', location: { lat: 45.526075, lng: -73.6054533 } }, { title: 'Temps libre Mile-End', location: { lat: 45.5283049, lng: -73.5980465 } }, { title: 'Théâtre Rialto', location: { lat: 45.5236231, lng: -73.6069876 } }, { title: 'Ubisoft Montreal', location: { lat: 45.5258607, lng: -73.60076 } }, { title: 'Marché Jean-Talon', location: { lat: 45.5364641, lng: -73.6239877 } }, { title: 'Canadian Tire', location: { lat: 45.5317005, lng: -73.6069106 } }, { title: 'La Maison De Mademoiselle Dumpling', location: { lat: 45.5359455, lng: -73.602456 } }, { title: 'La brume dans mes lunettes', location: { lat: 45.5352564, lng: -73.6088819 } }, { title: 'Milano Fruiterie', location: { lat: 45.5327694, lng: -73.6164051 } }, { title: 'Pizzeria Napoletana', location: { lat: 45.5336274, lng: -73.6161286 } }];
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16333,7 +16353,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function loadWikiData(search, article) {
+	function loadWikiData(search, array) {
 	    ///WIKIPEDIA API
 
 
@@ -16355,7 +16375,7 @@
 	            var formattedLink = '<a href="' + wikiArticleURL + '">' + wikiHeader + '</a>';
 
 	            if (wikiArticleURL != undefined) {
-	                article.push(formattedLink);
+	                array.push(wikiArticleURL);
 	            }
 	        };
 
@@ -16366,29 +16386,22 @@
 	exports.default = loadWikiData;
 
 /***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	            value: true
-	});
-	exports.default = [{ title: 'St-Viateur Bagel', location: { lat: 45.526075, lng: -73.6054533 } }, { title: 'Temps libre Mile-End', location: { lat: 45.5283049, lng: -73.5980465 } }, { title: 'Théâtre Rialto', location: { lat: 45.5236231, lng: -73.6069876 } }, { title: 'Ubisoft Montreal', location: { lat: 45.5258607, lng: -73.60076 } }, { title: 'Marché Jean-Talon', location: { lat: 45.5364641, lng: -73.6239877 } }, { title: 'Canadian Tire', location: { lat: 45.5317005, lng: -73.6069106 } }, { title: 'La Maison De Mademoiselle Dumpling', location: { lat: 45.5359455, lng: -73.602456 } }, { title: 'La brume dans mes lunettes', location: { lat: 45.5352564, lng: -73.6088819 } }, { title: 'Milano Fruiterie', location: { lat: 45.5327694, lng: -73.6164051 } }, { title: 'Pizzeria Napoletana', location: { lat: 45.5336274, lng: -73.6161286 } }];
-
-/***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
-	var _Locations = __webpack_require__(7);
+	var _Locations = __webpack_require__(6);
 
 	var _Locations2 = _interopRequireDefault(_Locations);
+
+	var _Wikipedia = __webpack_require__(7);
+
+	var _Wikipedia2 = _interopRequireDefault(_Wikipedia);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16518,18 +16531,26 @@
 	    var highlightedIcon = makeMarkerIcon('ed1509');
 	    var largeInfowindow = new google.maps.InfoWindow();
 	    // The following group uses the location array to create an array of markers on initialize.
+
+
 	    for (var i = 0; i < _Locations2.default.length; i++) {
 	        // Get the position from the location array.
 	        var position = _Locations2.default[i].location;
 	        var title = _Locations2.default[i].title;
+	        //
+	        var wikiArticles = [];
+
+	        (0, _Wikipedia2.default)(title, wikiArticles);
 	        // Create a marker per location, and put into markers array.
 	        var marker = new google.maps.Marker({
 	            position: position,
 	            title: title,
 	            animation: google.maps.Animation.DROP,
 	            icon: defaultIcon,
-	            id: i
+	            id: i,
+	            wikiArticles: wikiArticles
 	        });
+
 	        // Push the marker to our array of markers.
 	        markers.push(marker);
 	        // Create an onclick event to open the large infowindow at each marker.
@@ -16559,11 +16580,30 @@
 	        // In case the status is OK, which means the pano was found, compute the
 	        // position of the streetview image, then calculate the heading, then get a
 	        // panorama from that and set the options
+
+	        //an empty array that will become populated with
+	        //wikipedia articles based on location.
+
 	        var getStreetView = function getStreetView(data, status) {
 	            if (status == google.maps.StreetViewStatus.OK) {
+
+	                //checks if the wikiArticle array is empty
+	                //if not, sets infoWindow to hyperlink to Wikipedia Article
+	                var checkForArticles = function checkForArticles() {
+	                    if (marker.wikiArticles.length > 0) {
+	                        infoWindowTitle = '<a href="' + marker.wikiArticles[0] + '">' + marker.title + '</a>';
+	                    }
+	                };
+
 	                var nearStreetViewLocation = data.location.latLng;
 	                var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
-	                infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+
+	                //will become populated if there are Wikipedia articles to find
+	                var infoWindowTitle = marker.title;;
+
+	                checkForArticles();
+
+	                infowindow.setContent('<div>' + infoWindowTitle + '</div><div id="pano"></div>');
 	                var panoramaOptions = {
 	                    position: nearStreetViewLocation,
 	                    pov: {
@@ -16573,7 +16613,7 @@
 	                };
 	                var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
 	            } else {
-	                infowindow.setContent('<div>' + marker.title + '</div>' + '<div>No Street View Found</div>');
+	                infowindow.setContent('<div>' + marker.title + marker.wikiArticles[0] + '</div>' + '<div>No Street View Found</div>');
 	            }
 	        };
 	        // Use streetview service to get the closest streetview image within
@@ -16634,7 +16674,8 @@
 
 	exports.default = {
 	    markers: markers,
-	    initMap: initMap
+	    initMap: initMap,
+	    toggleBounce: toggleBounce
 	};
 
 /***/ }

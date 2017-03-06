@@ -1,25 +1,24 @@
 import ko from 'knockout';
-import loadWikiData from '../modules/Wikipedia';
-
 import locations from './Locations';
+import loadWikiData from './Wikipedia';
 import map from './Map';
+import toggleBounce from './Map';
 
 var markers = map.markers;
+
 
 var Location = function(data) {
     this.title = ko.observable(data.title);
     this.location = ko.observable(data.location);
     this.wikiArticle = ko.observableArray([]);
+    this.order = ko.observable();
 
     this.visible = ko.observable(true);
 
+
 }
 
-var Marker = function(data) {
-    this.title = ko.observable(data.title);
-    this.visible = ko.observable(data.visible);
-    this.id = ko.observable(data.id);
-}
+
 
 var AppViewModel = function() {
     var self = this;
@@ -30,7 +29,6 @@ var AppViewModel = function() {
 
     locations.forEach(function(locationItem) {
         self.locationList.push(new Location(locationItem));
-
     });
 
     self.locationList().forEach(function(locationItem) {
@@ -39,12 +37,26 @@ var AppViewModel = function() {
 
         loadWikiData(title, article);
 
+    //count increments as order is recorded into the obserable array
+
     });
 
+    self.count = 0;
 
-    this.currentLocation = ko.observable(this.locationList()[0]);
+    self.locationList().forEach(function(locationItem) {
+        locationItem.order(self.count);
+        self.count += 1;
 
+    });
 
+    self.showInfo = function(locationItem) {
+             //toggleBounce(markers[locationItem.order]);
+            console.log(markers[locationItem.order()]);
+            var currentMarker = markers[locationItem.order()];
+            var currentID = currentMarker.id;
+            //toggleBounce(markers[currentMarker.id]);
+            toggleBounce(currentMarker.id);
+    };
 
 }
 
@@ -65,13 +77,12 @@ AppViewModel.prototype.filteredItems = ko.computed( function() {
 
             locationItem.visible(true);
 
-            console.log('BLAH');
-
         });
 
         for (var i = 0; i < self.locationList().length; i++) {
         if (markers.length > 0) {
             markers[i].setVisible(true);
+
 
             }
         }
@@ -106,3 +117,4 @@ AppViewModel.prototype.filteredItems = ko.computed( function() {
 
 
 ko.applyBindings(vm);
+
