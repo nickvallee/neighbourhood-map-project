@@ -5,7 +5,6 @@ export var map;
 export var markers = [];
 
 
-
 export function initMap() {
     //creates custome styles for map
 
@@ -155,10 +154,14 @@ export function initMap() {
         marker.addListener('mouseout', function() {
             this.setIcon(defaultIcon);
         });
+
+
     }
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
 }
+
+
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
@@ -218,6 +221,7 @@ function toggleBounce(marker) {
     }
 }
 
+
 // This function will loop through the markers array and display them all.
 function showListings() {
     var bounds = new google.maps.LatLngBounds();
@@ -247,3 +251,14 @@ function makeMarkerIcon(markerColor) {
         new google.maps.Size(21, 34));
     return markerImage;
 }
+
+export function callGoogleMaps() {
+    var js_file = document.createElement('script');
+    js_file.type = 'text/javascript';
+    //js_file.callback = initMap();
+    js_file.src = 'https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyA56O00SWz5jCIbOA4AHsa9Ei5_ObpQlV8&v=3&callback=initMap';
+    document.getElementsByTagName('body')[0].appendChild(js_file);
+ }
+
+
+

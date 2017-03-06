@@ -1,17 +1,36 @@
+var mapLoaded = false;
 
 import $ from 'jquery';
 import ko from 'knockout';
-
-import { map, markers, initMap } from'./modules/Map';
+import { map, markers, initMap, callGoogleMaps} from'./modules/Map';
+//import { js_file, callGoogleMaps } from './modules/GoogleMapsCall';
 //import'./modules/Test';
 //import'./modules/AppViewModel';
 
 
-var js_file = document.createElement('script');
-js_file.type = 'text/javascript';
-js_file.callback = initMap();
-js_file.src = 'https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyA56O00SWz5jCIbOA4AHsa9Ei5_ObpQlV8&v=3&callback='+ js_file.callback;
-document.getElementsByTagName('head')[0].appendChild(js_file);
+
+callGoogleMaps();
+
+function loadScript( url, callback ) {
+  var script = document.createElement( "script" )
+  script.type = "text/javascript";
+  if(script.readyState) {  //IE
+    script.onreadystatechange = function() {
+      if ( script.readyState === "loaded" || script.readyState === "complete" ) {
+        script.onreadystatechange = null;
+        callback();
+      }
+    };
+  } else {  //Others
+    script.onload = function() {
+      callback();
+    };
+  }
+
+  script.src = url;
+  document.getElementsByTagName( "head" )[0].appendChild( script );
+}
+
 
 /*
 $(function() {
