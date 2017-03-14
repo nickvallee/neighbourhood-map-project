@@ -2,10 +2,12 @@ import ko from 'knockout';
 import locations from './Locations';
 import loadWikiData from './Wikipedia';
 import map from './Map';
-import toggleBounce from './Map';
 
 var markers = map.markers;
 
+//var largeInfowindow = new google.maps.InfoWindow();
+
+//console.log(largeInfowindow);
 
 var Location = function(data) {
     this.title = ko.observable(data.title);
@@ -48,14 +50,15 @@ var AppViewModel = function() {
         self.count += 1;
 
     });
+    //YOU ARE HERE!!!!
 
     self.showInfo = function(locationItem) {
-             //toggleBounce(markers[locationItem.order]);
-            console.log(markers[locationItem.order()]);
+
             var currentMarker = markers[locationItem.order()];
-            var currentID = currentMarker.id;
-            //toggleBounce(markers[currentMarker.id]);
-            toggleBounce(currentMarker.id);
+            //map.populateInfoWindow(currentMarker, largeInfowindow);
+            //map.toggleBounce(currentMarker);
+
+            currentMarker.activateFromList();
     };
 
 }

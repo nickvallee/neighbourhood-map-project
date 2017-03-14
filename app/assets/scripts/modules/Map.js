@@ -6,7 +6,9 @@ var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
 
- var initMap = function() {
+
+
+var initMap = function() {
     //creates custome styles for map
 
     var styles = [{
@@ -125,15 +127,14 @@ var markers = [];
     // Create a "highlighted location" marker color for when the user
     // mouses over the marker.
     var highlightedIcon = makeMarkerIcon('ed1509');
+
     var largeInfowindow = new google.maps.InfoWindow();
     // The following group uses the location array to create an array of markers on initialize.
-
-
     for (var i = 0; i < locations.length; i++) {
         // Get the position from the location array.
         var position = locations[i].location;
         var title = locations[i].title;
-        //
+
         var wikiArticles = [];
 
         loadWikiData(title, wikiArticles);
@@ -149,6 +150,9 @@ var markers = [];
 
         // Push the marker to our array of markers.
         markers.push(marker);
+
+
+
         // Create an onclick event to open the large infowindow at each marker.
         marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
@@ -162,6 +166,12 @@ var markers = [];
         marker.addListener('mouseout', function() {
             this.setIcon(defaultIcon);
         });
+
+        //
+        marker.activateFromList = function() {
+            populateInfoWindow(this, largeInfowindow);
+            toggleBounce(this);
+        }
     }
     document.getElementById('show-listings').addEventListener('click', showListings);
     document.getElementById('hide-listings').addEventListener('click', hideListings);
@@ -229,7 +239,7 @@ function populateInfoWindow(marker, infowindow) {
         // Open the infowindow on the correct marker.
         infowindow.open(map, marker);
     }
-} // INITMAP??
+}
 //Create Bounce animation
 function toggleBounce(marker) {
     if (marker.getAnimation() !== null) {
@@ -278,5 +288,8 @@ window.initMap = initMap;
 export default {
     markers: markers,
     initMap: initMap,
-    toggleBounce: toggleBounce
+    toggleBounce: toggleBounce,
+    populateInfoWindow: populateInfoWindow
+
+
 };

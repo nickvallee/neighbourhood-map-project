@@ -16234,6 +16234,10 @@
 
 	var markers = _Map2.default.markers;
 
+	//var largeInfowindow = new google.maps.InfoWindow();
+
+	//console.log(largeInfowindow);
+
 	var Location = function Location(data) {
 	    this.title = _knockout2.default.observable(data.title);
 	    this.location = _knockout2.default.observable(data.location);
@@ -16269,14 +16273,15 @@
 	        locationItem.order(self.count);
 	        self.count += 1;
 	    });
+	    //YOU ARE HERE!!!!
 
 	    self.showInfo = function (locationItem) {
-	        //toggleBounce(markers[locationItem.order]);
-	        console.log(markers[locationItem.order()]);
+
 	        var currentMarker = markers[locationItem.order()];
-	        var currentID = currentMarker.id;
-	        //toggleBounce(markers[currentMarker.id]);
-	        (0, _Map2.default)(currentMarker.id);
+	        //map.populateInfoWindow(currentMarker, largeInfowindow);
+	        //map.toggleBounce(currentMarker);
+
+	        currentMarker.activateFromList();
 	    };
 	};
 
@@ -16529,15 +16534,14 @@
 	    // Create a "highlighted location" marker color for when the user
 	    // mouses over the marker.
 	    var highlightedIcon = makeMarkerIcon('ed1509');
+
 	    var largeInfowindow = new google.maps.InfoWindow();
 	    // The following group uses the location array to create an array of markers on initialize.
-
-
 	    for (var i = 0; i < _Locations2.default.length; i++) {
 	        // Get the position from the location array.
 	        var position = _Locations2.default[i].location;
 	        var title = _Locations2.default[i].title;
-	        //
+
 	        var wikiArticles = [];
 
 	        (0, _Wikipedia2.default)(title, wikiArticles);
@@ -16553,6 +16557,7 @@
 
 	        // Push the marker to our array of markers.
 	        markers.push(marker);
+
 	        // Create an onclick event to open the large infowindow at each marker.
 	        marker.addListener('click', function () {
 	            populateInfoWindow(this, largeInfowindow);
@@ -16566,6 +16571,12 @@
 	        marker.addListener('mouseout', function () {
 	            this.setIcon(defaultIcon);
 	        });
+
+	        //
+	        marker.activateFromList = function () {
+	            populateInfoWindow(this, largeInfowindow);
+	            toggleBounce(this);
+	        };
 	    }
 	    document.getElementById('show-listings').addEventListener('click', showListings);
 	    document.getElementById('hide-listings').addEventListener('click', hideListings);
@@ -16632,7 +16643,7 @@
 	        // Open the infowindow on the correct marker.
 	        infowindow.open(map, marker);
 	    }
-	} // INITMAP??
+	}
 	//Create Bounce animation
 	function toggleBounce(marker) {
 	    if (marker.getAnimation() !== null) {
@@ -16675,7 +16686,9 @@
 	exports.default = {
 	    markers: markers,
 	    initMap: initMap,
-	    toggleBounce: toggleBounce
+	    toggleBounce: toggleBounce,
+	    populateInfoWindow: populateInfoWindow
+
 	};
 
 /***/ }
