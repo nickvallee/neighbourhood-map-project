@@ -3,12 +3,11 @@ import locations from './Locations';
 import loadWikiData from './Wikipedia';
 import map from './Map';
 
+//renames marker array to make it easier to use in AppViewModel
 var markers = map.markers;
 
-//var largeInfowindow = new google.maps.InfoWindow();
 
-//console.log(largeInfowindow);
-
+//location constructor for items in locationList();
 var Location = function(data) {
     this.title = ko.observable(data.title);
     this.location = ko.observable(data.location);
@@ -20,19 +19,22 @@ var Location = function(data) {
 
 }
 
-
-
+//communicate with list and present information on the page
 var AppViewModel = function() {
     var self = this;
 
+    //filters list items and marker based on value
     this.searchTerm = ko.observable("");
 
+    //create observable array that populates LocationList
     this.locationList = ko.observableArray([]);
 
+    //gets data for Locations and stores it in observable array
     locations.forEach(function(locationItem) {
         self.locationList.push(new Location(locationItem));
     });
 
+    //iterates through list and adds wikipedia link, if applicable
     self.locationList().forEach(function(locationItem) {
         var title = locationItem.title();
         var article = locationItem.wikiArticle();
@@ -43,43 +45,39 @@ var AppViewModel = function() {
 
     });
 
+    //increments as .order value is update in locationItem
     self.count = 0;
 
+    //sets order variable to value based on the index of locationItem
     self.locationList().forEach(function(locationItem) {
         locationItem.order(self.count);
         self.count += 1;
 
     });
-    //YOU ARE HERE!!!!
 
+    //click on list item, correspondign marker will bounce, and info window will open
     self.showInfo = function(locationItem) {
-
             var currentMarker = markers[locationItem.order()];
-            //map.populateInfoWindow(currentMarker, largeInfowindow);
-            //map.toggleBounce(currentMarker);
 
             currentMarker.activateFromList();
     };
-
 }
 
-
+//create instance of AppViewModel
 var vm = new AppViewModel();
 
 
-
+//filters list items and markers based on what's writen in search box
 AppViewModel.prototype.filteredItems = ko.computed( function() {
     var self = this;
 
     var filter = self.searchTerm().toLowerCase();
 
+    //if there search box is empty, show all markers
+    //otherwise show content if it contains value in search box
     if (!filter) {
-
-
         self.locationList().forEach(function(locationItem){
-
             locationItem.visible(true);
-
         });
 
         for (var i = 0; i < self.locationList().length; i++) {
@@ -118,6 +116,6 @@ AppViewModel.prototype.filteredItems = ko.computed( function() {
 
   }, vm);
 
-
+//apply bindings to DOM
 ko.applyBindings(vm);
 

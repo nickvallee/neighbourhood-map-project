@@ -16232,12 +16232,10 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//renames marker array to make it easier to use in AppViewModel
 	var markers = _Map2.default.markers;
 
-	//var largeInfowindow = new google.maps.InfoWindow();
-
-	//console.log(largeInfowindow);
-
+	//location constructor for items in locationList();
 	var Location = function Location(data) {
 	    this.title = _knockout2.default.observable(data.title);
 	    this.location = _knockout2.default.observable(data.location);
@@ -16247,17 +16245,22 @@
 	    this.visible = _knockout2.default.observable(true);
 	};
 
+	//communicate with list and present information on the page
 	var AppViewModel = function AppViewModel() {
 	    var self = this;
 
+	    //filters list items and marker based on value
 	    this.searchTerm = _knockout2.default.observable("");
 
+	    //create observable array that populates LocationList
 	    this.locationList = _knockout2.default.observableArray([]);
 
+	    //gets data for Locations and stores it in observable array
 	    _Locations2.default.forEach(function (locationItem) {
 	        self.locationList.push(new Location(locationItem));
 	    });
 
+	    //iterates through list and adds wikipedia link, if applicable
 	    self.locationList().forEach(function (locationItem) {
 	        var title = locationItem.title();
 	        var article = locationItem.wikiArticle();
@@ -16267,35 +16270,36 @@
 	        //count increments as order is recorded into the obserable array
 	    });
 
+	    //increments as .order value is update in locationItem
 	    self.count = 0;
 
+	    //sets order variable to value based on the index of locationItem
 	    self.locationList().forEach(function (locationItem) {
 	        locationItem.order(self.count);
 	        self.count += 1;
 	    });
-	    //YOU ARE HERE!!!!
 
+	    //click on list item, correspondign marker will bounce, and info window will open
 	    self.showInfo = function (locationItem) {
-
 	        var currentMarker = markers[locationItem.order()];
-	        //map.populateInfoWindow(currentMarker, largeInfowindow);
-	        //map.toggleBounce(currentMarker);
 
 	        currentMarker.activateFromList();
 	    };
 	};
 
+	//create instance of AppViewModel
 	var vm = new AppViewModel();
 
+	//filters list items and markers based on what's writen in search box
 	AppViewModel.prototype.filteredItems = _knockout2.default.computed(function () {
 	    var self = this;
 
 	    var filter = self.searchTerm().toLowerCase();
 
+	    //if there search box is empty, show all markers
+	    //otherwise show content if it contains value in search box
 	    if (!filter) {
-
 	        self.locationList().forEach(function (locationItem) {
-
 	            locationItem.visible(true);
 	        });
 
@@ -16329,6 +16333,7 @@
 	    }
 	}, vm);
 
+	//apply bindings to DOM
 	_knockout2.default.applyBindings(vm);
 
 /***/ },
@@ -16358,9 +16363,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	//looks for wikipedia articles based on search and puts them in a passed arrray
 	function loadWikiData(search, array) {
-	    ///WIKIPEDIA API
-
 
 	    var wikiRequestTimeout = setTimeout(function () {
 	        //$wikiElem.text("failed to get wikpedia resources");
@@ -16415,9 +16419,10 @@
 	// Create a new blank array for all the listing markers.
 	var markers = [];
 
+	//create map when called
 	var initMap = function initMap() {
-	    //creates custome styles for map
 
+	    //creates custome styles for map
 	    var styles = [{
 	        "elementType": "geometry",
 	        "stylers": [{
@@ -16519,31 +16524,26 @@
 	        styles: styles,
 	        mayTypeControl: false
 	    });
-	    // These are the real estate listings that will be shown to the user.
-	    // Normally we'd have these in a database instead.
-	    //TODO: Turn this into an observable Array?
-	    /*var locations = [
-	      {title: 'St-Viateur Bagel', location: {lat: 45.526075, lng: -73.6054533}},
-	      {title: 'Temps libre Mile-End', location: {lat:45.5283049, lng: -73.5980465}},
-	      {title: 'Théâtre Rialto', location: {lat:45.5236231, lng: -73.6069876 }},
-	      {title: 'Ubisoft Montreal', location: {lat:45.5258607, lng: -73.60076 }},
-	      {title: 'Marché Jean-Talon', location: {lat:45.5364641, lng:-73.6239877}},
-	    ];*/
-	    // Style the markers a bit. This will be our listing marker icon.
+
+	    // Styles defualt marker
 	    var defaultIcon = makeMarkerIcon('bf2f03');
 	    // Create a "highlighted location" marker color for when the user
 	    // mouses over the marker.
 	    var highlightedIcon = makeMarkerIcon('ed1509');
 
+	    //creat window that will be used to populate window content
 	    var largeInfowindow = new google.maps.InfoWindow();
 	    // The following group uses the location array to create an array of markers on initialize.
 	    for (var i = 0; i < _Locations2.default.length; i++) {
 	        // Get the position from the location array.
 	        var position = _Locations2.default[i].location;
+	        //Get title from the locatons array
 	        var title = _Locations2.default[i].title;
 
+	        //will fill with wikipedia articles
 	        var wikiArticles = [];
 
+	        //searches for wikipedia articles based on marker title
 	        (0, _Wikipedia2.default)(title, wikiArticles);
 	        // Create a marker per location, and put into markers array.
 	        var marker = new google.maps.Marker({
@@ -16572,13 +16572,15 @@
 	            this.setIcon(defaultIcon);
 	        });
 
-	        //
+	        //will populate info windwo and bounce marker when list item is clicked on
 	        marker.activateFromList = function () {
 	            populateInfoWindow(this, largeInfowindow);
 	            toggleBounce(this);
 	        };
 	    }
+	    //shows listings
 	    document.getElementById('show-listings').addEventListener('click', showListings);
+	    //hide listings
 	    document.getElementById('hide-listings').addEventListener('click', hideListings);
 	};
 
@@ -16609,11 +16611,11 @@
 	                var nearStreetViewLocation = data.location.latLng;
 	                var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
 
-	                //will become populated if there are Wikipedia articles to find
 	                var infoWindowTitle = marker.title;;
 
 	                checkForArticles();
 
+	                //populates rest of info window
 	                infowindow.setContent('<div>' + infoWindowTitle + '</div><div id="pano"></div>');
 	                var panoramaOptions = {
 	                    position: nearStreetViewLocation,
@@ -16622,6 +16624,7 @@
 	                        pitch: 30
 	                    }
 	                };
+
 	                var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
 	            } else {
 	                infowindow.setContent('<div>' + marker.title + marker.wikiArticles[0] + '</div>' + '<div>No Street View Found</div>');
@@ -16644,7 +16647,7 @@
 	        infowindow.open(map, marker);
 	    }
 	}
-	//Create Bounce animation
+	//Create bounce animation
 	function toggleBounce(marker) {
 	    if (marker.getAnimation() !== null) {
 	        marker.setAnimation(null);
@@ -16657,7 +16660,7 @@
 	    }
 	}
 
-	// This function will loop through the markers array and display them all.
+	//This function will loop through the markers array and display them all.
 	function showListings() {
 	    var bounds = new google.maps.LatLngBounds();
 	    // Extend the boundaries of the map for each marker and display the marker
@@ -16681,6 +16684,8 @@
 	    return markerImage;
 	}
 
+	//webpack sets initMap to a local variable by default
+	//this sets initMap to global
 	window.initMap = initMap;
 
 	exports.default = {

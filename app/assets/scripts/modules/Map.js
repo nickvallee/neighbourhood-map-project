@@ -7,10 +7,10 @@ var map;
 var markers = [];
 
 
-
+//create map when called
 var initMap = function() {
-    //creates custome styles for map
 
+    //creates custome styles for map
     var styles = [{
         "elementType": "geometry",
         "stylers": [{
@@ -112,31 +112,26 @@ var initMap = function() {
         styles: styles,
         mayTypeControl: false
     });
-    // These are the real estate listings that will be shown to the user.
-    // Normally we'd have these in a database instead.
-    //TODO: Turn this into an observable Array?
-    /*var locations = [
-      {title: 'St-Viateur Bagel', location: {lat: 45.526075, lng: -73.6054533}},
-      {title: 'Temps libre Mile-End', location: {lat:45.5283049, lng: -73.5980465}},
-      {title: 'Théâtre Rialto', location: {lat:45.5236231, lng: -73.6069876 }},
-      {title: 'Ubisoft Montreal', location: {lat:45.5258607, lng: -73.60076 }},
-      {title: 'Marché Jean-Talon', location: {lat:45.5364641, lng:-73.6239877}},
-    ];*/
-    // Style the markers a bit. This will be our listing marker icon.
+
+    // Styles defualt marker
     var defaultIcon = makeMarkerIcon('bf2f03');
     // Create a "highlighted location" marker color for when the user
     // mouses over the marker.
     var highlightedIcon = makeMarkerIcon('ed1509');
 
+    //creat window that will be used to populate window content
     var largeInfowindow = new google.maps.InfoWindow();
     // The following group uses the location array to create an array of markers on initialize.
     for (var i = 0; i < locations.length; i++) {
         // Get the position from the location array.
         var position = locations[i].location;
+        //Get title from the locatons array
         var title = locations[i].title;
 
+        //will fill with wikipedia articles
         var wikiArticles = [];
 
+        //searches for wikipedia articles based on marker title
         loadWikiData(title, wikiArticles);
         // Create a marker per location, and put into markers array.
         var marker = new google.maps.Marker({
@@ -167,13 +162,15 @@ var initMap = function() {
             this.setIcon(defaultIcon);
         });
 
-        //
+        //will populate info windwo and bounce marker when list item is clicked on
         marker.activateFromList = function() {
             populateInfoWindow(this, largeInfowindow);
             toggleBounce(this);
         }
     }
+    //shows listings
     document.getElementById('show-listings').addEventListener('click', showListings);
+    //hide listings
     document.getElementById('hide-listings').addEventListener('click', hideListings);
 }
 
@@ -205,7 +202,7 @@ function populateInfoWindow(marker, infowindow) {
                 var heading = google.maps.geometry.spherical.computeHeading(
                     nearStreetViewLocation, marker.position);
 
-                //will become populated if there are Wikipedia articles to find
+
                 var infoWindowTitle = marker.title;
 
                 //checks if the wikiArticle array is empty
@@ -218,6 +215,7 @@ function populateInfoWindow(marker, infowindow) {
 
                 checkForArticles();
 
+                //populates rest of info window
                 infowindow.setContent('<div>' + infoWindowTitle + '</div><div id="pano"></div>');
                 var panoramaOptions = {
                     position: nearStreetViewLocation,
@@ -226,6 +224,7 @@ function populateInfoWindow(marker, infowindow) {
                         pitch: 30
                     }
                 };
+
                 var panorama = new google.maps.StreetViewPanorama(
                     document.getElementById('pano'), panoramaOptions);
             } else {
@@ -240,7 +239,7 @@ function populateInfoWindow(marker, infowindow) {
         infowindow.open(map, marker);
     }
 }
-//Create Bounce animation
+//Create bounce animation
 function toggleBounce(marker) {
     if (marker.getAnimation() !== null) {
         marker.setAnimation(null);
@@ -253,7 +252,7 @@ function toggleBounce(marker) {
     }
 }
 
-// This function will loop through the markers array and display them all.
+//This function will loop through the markers array and display them all.
 function showListings() {
     var bounds = new google.maps.LatLngBounds();
     // Extend the boundaries of the map for each marker and display the marker
@@ -283,6 +282,8 @@ function makeMarkerIcon(markerColor) {
     return markerImage;
 }
 
+//webpack sets initMap to a local variable by default
+//this sets initMap to global
 window.initMap = initMap;
 
 export default {

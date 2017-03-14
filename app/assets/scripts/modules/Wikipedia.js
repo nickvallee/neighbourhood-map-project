@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
+//looks for wikipedia articles based on search and puts them in a passed arrray
 function loadWikiData(search, array) {
-///WIKIPEDIA API
 
 
 var wikiRequestTimeout = setTimeout(function() {
