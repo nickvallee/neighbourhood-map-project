@@ -16,34 +16,17 @@
 
 <div class="container">
       <div class="options-box">
-        <h1>Mile End/ Little Italy</h1>
-        <div>
+        <h1 class="options-box__header">Mile End/ Little Italy</h1>
+        <div class="options-box__show-hide">
           <input id="show-listings" type="button" value="Show Listings">
           <input id="hide-listings" type="button" value="Hide Listings">
-          <!-- TEST TEST -->
-           <div class="search" id="search">
-                <input class="search-box" id="search-box" data-bind="textInput: searchTerm, valueUpdate: 'afterkeydown'" />
+          </div>
+          <div class="options-box__search" id="search">
+                <input class="options-box__search__search-box" id="search-box" data-bind="textInput: searchTerm, valueUpdate: 'afterkeydown'" />
             </div>
-          <ul class="results" id="results" data-bind="foreach: filteredItems">
+          <ul class="options-box__list results" id="results" data-bind="foreach: filteredItems">
             <li data-bind="text: title, event: { click: $parent.showInfo}"></li>
-            <ul data-bind="foreach: wikiArticle">
-              <li data-bind="html: $data"></li>
-            </ul>
-
-
           </ul>
-
-
-
-          <!--
-          <ul data-bind= "foreach: locationList">
-            <li data-bind="text: title"> </li>
-          </ul>
-          -->
-
-
-
-        </div>
       </div>
 
     <div id="map">

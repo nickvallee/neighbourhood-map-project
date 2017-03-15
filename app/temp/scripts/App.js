@@ -16279,7 +16279,7 @@
 	        self.count += 1;
 	    });
 
-	    //click on list item, correspondign marker will bounce, and info window will open
+	    //click on list item, corresponding marker will bounce, and info window will open
 	    self.showInfo = function (locationItem) {
 	        var currentMarker = markers[locationItem.order()];
 
@@ -16366,18 +16366,17 @@
 	//looks for wikipedia articles based on search and puts them in a passed arrray
 	function loadWikiData(search, array) {
 
+	    //NEED TO FIND PLACE FOR TIME OUT REQUEST
 	    var wikiRequestTimeout = setTimeout(function () {
 	        //$wikiElem.text("failed to get wikpedia resources");
 	    }, 8000);
 
 	    var wikiLink = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + search + '&format=json';
-	    //console.log("wikiLink: "+wikiLink);
 
+	    //calls dataa
 	    _jquery2.default.ajax(wikiLink, {
 	        dataType: 'jsonp'
 	    }).done(function (data) {
-	        //console.log(data);
-
 	        for (var i = 0; i < data.length; i++) {
 	            var wikiHeader = data[1][i];
 	            var wikiArticleURL = data[3][i];
@@ -16574,8 +16573,12 @@
 
 	        //will populate info windwo and bounce marker when list item is clicked on
 	        marker.activateFromList = function () {
-	            populateInfoWindow(this, largeInfowindow);
 	            toggleBounce(this);
+
+	            populateInfoWindow(this, largeInfowindow);
+
+	            //console.log(map.getBounds().contains(marker.getPosition()));
+
 	        };
 	    }
 	    //shows listings

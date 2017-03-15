@@ -55,11 +55,13 @@ var AppViewModel = function() {
 
     });
 
-    //click on list item, correspondign marker will bounce, and info window will open
+    //click on list item, corresponding marker will bounce, and info window will open
     self.showInfo = function(locationItem) {
             var currentMarker = markers[locationItem.order()];
 
+
             currentMarker.activateFromList();
+
     };
 }
 

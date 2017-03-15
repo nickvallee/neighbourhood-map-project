@@ -164,8 +164,13 @@ var initMap = function() {
 
         //will populate info windwo and bounce marker when list item is clicked on
         marker.activateFromList = function() {
-            populateInfoWindow(this, largeInfowindow);
             toggleBounce(this);
+
+            populateInfoWindow(this, largeInfowindow);
+
+            //console.log(map.getBounds().contains(marker.getPosition()));
+
+
         }
     }
     //shows listings
