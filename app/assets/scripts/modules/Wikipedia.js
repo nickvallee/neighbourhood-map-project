@@ -3,10 +3,14 @@ import $ from 'jquery';
 //looks for wikipedia articles based on search and puts them in a passed arrray
 function loadWikiData(search, array) {
 
+var sent = false;
 
-//NEED TO FIND PLACE FOR TIME OUT REQUEST
+//sends an alert if wikipedia does not load
 var wikiRequestTimeout = setTimeout(function() {
-    //$wikiElem.text("failed to get wikpedia resources");
+    if (send === false) {
+        $('.options-box').prepend('<p> warning: could not retrieve wikipedia articles </p>');
+        sent = true;
+    }
 }, 8000);
 
 var wikiLink = 'http://en.wikipedia.org/w/api.php?action=opensearch&search='+search+'&format=json';

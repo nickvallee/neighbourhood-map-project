@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title> Nick's Neighbourhood Map </title>
 
-<link rel="stylesheet" href="assets/styles/styles-08e224f611.css"/>
+<link rel="stylesheet" href="assets/styles/styles-f5d283084e.css"/>
 
 </head>
 
@@ -14,16 +14,18 @@
 
 <div class="container">
       <div class="options-box">
-        <h1>Mile End/ Little italy</h1>
-        <div>
+        <h1 class="options-box__header">Mile End/ Little Italy</h1>
+        <p class="options-box__attribution">Powered by Wikipedia and Google Maps</p>
+        <div class="options-box__show-hide">
           <input id="show-listings" type="button" value="Show Listings">
           <input id="hide-listings" type="button" value="Hide Listings">
-          <!-- TEST TEST -->
-          <ul data-bind= "foreach: locationList">
-            <li data-bind="text: title"> </li>
+          </div>
+          <div class="options-box__search" id="search">
+                <input class="options-box__search__search-box" id="search-box" data-bind="textInput: searchTerm, valueUpdate: 'afterkeydown'" />
+            </div>
+          <ul class="options-box__list results" id="results" data-bind="foreach: filteredItems">
+            <li data-bind="text: title, event: { click: $parent.showInfo}"></li>
           </ul>
-
-        </div>
       </div>
 
     <div id="map">
@@ -31,14 +33,9 @@
 </div>
 
 
+<script src="assets/scripts/App-c9d1692cdb.js"></script>
 
-<script>
-
-</script>
-
-<script src="temp/scripts/App.js"> </script>
-
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA56O00SWz5jCIbOA4AHsa9Ei5_ObpQlV8&v=3&callback=app.initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyA56O00SWz5jCIbOA4AHsa9Ei5_ObpQlV8&v=3&callback=initMap"></script>
 
 </body>
 
