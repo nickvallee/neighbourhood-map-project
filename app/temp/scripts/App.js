@@ -16376,7 +16376,7 @@
 	        }
 	    }, 8000);
 
-	    var wikiLink = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + search + '&format=json';
+	    var wikiLink = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + search + '&format=json';
 
 	    //calls dataa
 	    _jquery2.default.ajax(wikiLink, {

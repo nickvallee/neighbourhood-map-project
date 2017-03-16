@@ -13,7 +13,7 @@ function loadWikiData(search, array) {
         }
     }, 8000);
 
-    var wikiLink = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + search + '&format=json';
+    var wikiLink = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + search + '&format=json';
 
     //calls dataa
     $.ajax(wikiLink, {
