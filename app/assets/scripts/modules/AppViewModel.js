@@ -17,7 +17,7 @@ var Location = function(data) {
     this.visible = ko.observable(true);
 
 
-}
+};
 
 //communicate with list and present information on the page
 var AppViewModel = function() {
@@ -41,7 +41,7 @@ var AppViewModel = function() {
 
         loadWikiData(title, article);
 
-    //count increments as order is recorded into the obserable array
+        //count increments as order is recorded into the obserable array
 
     });
 
@@ -57,20 +57,20 @@ var AppViewModel = function() {
 
     //click on list item, corresponding marker will bounce, and info window will open
     self.showInfo = function(locationItem) {
-            var currentMarker = markers[locationItem.order()];
+        var currentMarker = markers[locationItem.order()];
 
 
-            currentMarker.activateFromList();
+        currentMarker.activateFromList();
 
     };
-}
+};
 
 //create instance of AppViewModel
 var vm = new AppViewModel();
 
 
 //filters list items and markers based on what's writen in search box
-AppViewModel.prototype.filteredItems = ko.computed( function() {
+AppViewModel.prototype.filteredItems = ko.computed(function() {
     var self = this;
 
     var filter = self.searchTerm().toLowerCase();
@@ -78,46 +78,45 @@ AppViewModel.prototype.filteredItems = ko.computed( function() {
     //if there search box is empty, show all markers
     //otherwise show content if it contains value in search box
     if (!filter) {
-        self.locationList().forEach(function(locationItem){
+        self.locationList().forEach(function(locationItem) {
             locationItem.visible(true);
         });
 
         for (var i = 0; i < self.locationList().length; i++) {
-        if (markers.length > 0) {
-            markers[i].setVisible(true);
+            if (markers.length > 0) {
+                markers[i].setVisible(true);
 
 
             }
         }
 
-      return self.locationList();
+        return self.locationList();
     } else {
 
-      return ko.utils.arrayFilter(self.locationList(), function(locationItem) {
+        return ko.utils.arrayFilter(self.locationList(), function(locationItem) {
 
-        var string = locationItem.title().toLowerCase();
-        var result = (string.search(filter) >= 0);
-        locationItem.visible(result);
+            var string = locationItem.title().toLowerCase();
+            var result = (string.search(filter) >= 0);
+            locationItem.visible(result);
 
 
 
-      for (var i = 0; i < self.locationList().length; i++) {
-            var currentMarker = markers[i].title.toLowerCase();
+            for (var i = 0; i < self.locationList().length; i++) {
+                var currentMarker = markers[i].title.toLowerCase();
 
-            if(currentMarker.includes(filter)) {
-                markers[i].setVisible(true);
-            } else {
-                markers[i].setVisible(false);
+                if (currentMarker.includes(filter)) {
+                    markers[i].setVisible(true);
+                } else {
+                    markers[i].setVisible(false);
+                }
             }
-        };
 
 
-        return result;
-      });
+            return result;
+        });
     }
 
-  }, vm);
+}, vm);
 
 //apply bindings to DOM
 ko.applyBindings(vm);
-

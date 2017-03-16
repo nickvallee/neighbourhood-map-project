@@ -16326,7 +16326,7 @@
 	                } else {
 	                    markers[i].setVisible(false);
 	                }
-	            };
+	            }
 
 	            return result;
 	        });
@@ -16370,7 +16370,7 @@
 
 	    //sends an alert if wikipedia does not load
 	    var wikiRequestTimeout = setTimeout(function () {
-	        if (send === false) {
+	        if (sent === false) {
 	            (0, _jquery2.default)('.options-box').prepend('<p> warning: could not retrieve wikipedia articles </p>');
 	            sent = true;
 	        }
@@ -16383,18 +16383,16 @@
 	        dataType: 'jsonp'
 	    }).done(function (data) {
 	        for (var i = 0; i < data.length; i++) {
-	            var wikiHeader = data[1][i];
 	            var wikiArticleURL = data[3][i];
-	            var formattedLink = '<a href="' + wikiArticleURL + '">' + wikiHeader + '</a>';
 
-	            if (wikiArticleURL != undefined) {
+	            if (wikiArticleURL !== undefined) {
 	                array.push(wikiArticleURL);
 	            }
-	        };
+	        }
 
 	        clearTimeout(wikiRequestTimeout);
 	    });
-	};
+	}
 
 	exports.default = loadWikiData;
 
@@ -16619,7 +16617,7 @@
 	                var nearStreetViewLocation = data.location.latLng;
 	                var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
 
-	                var infoWindowTitle = marker.title;;
+	                var infoWindowTitle = marker.title;
 
 	                checkForArticles();
 

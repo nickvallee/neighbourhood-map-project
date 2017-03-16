@@ -171,13 +171,13 @@ var initMap = function() {
             //console.log(map.getBounds().contains(marker.getPosition()));
 
 
-        }
+        };
     }
     //shows listings
     document.getElementById('show-listings').addEventListener('click', showListings);
     //hide listings
     document.getElementById('hide-listings').addEventListener('click', hideListings);
-}
+};
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
@@ -213,10 +213,10 @@ function populateInfoWindow(marker, infowindow) {
                 //checks if the wikiArticle array is empty
                 //if not, sets infoWindow to hyperlink to Wikipedia Article
                 function checkForArticles() {
-                    if(marker.wikiArticles.length > 0) {
-                        infoWindowTitle = '<a href="' + marker.wikiArticles[0]+ '">' + marker.title + '</a>';
+                    if (marker.wikiArticles.length > 0) {
+                        infoWindowTitle = '<a href="' + marker.wikiArticles[0] + '">' + marker.title + '</a>';
                     }
-                };
+                }
 
                 checkForArticles();
 
@@ -233,7 +233,7 @@ function populateInfoWindow(marker, infowindow) {
                 var panorama = new google.maps.StreetViewPanorama(
                     document.getElementById('pano'), panoramaOptions);
             } else {
-                infowindow.setContent('<div>' + marker.title + marker.wikiArticles[0] +'</div>' +
+                infowindow.setContent('<div>' + marker.title + marker.wikiArticles[0] + '</div>' +
                     '<div>No Street View Found</div>');
             }
         }

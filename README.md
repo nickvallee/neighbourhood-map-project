@@ -7,6 +7,7 @@ When you press **show listings** the map will populate with 10 markers on the ma
 if you click on a marker or a list item, the marker will bounce and an info window will pop up, showing the location's title and street view.  If there is a Wikipedia article associated with the location, the title will be hyperlinked to the article.
 
 ##See project on Github Pages
+https://nickvallee.github.io/neighbourhood-map-project/
 
 ##How to Run Project Locally
 
