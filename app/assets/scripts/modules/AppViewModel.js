@@ -9,9 +9,9 @@ var markers = map.markers;
 
 //location constructor for items in locationList();
 var Location = function(data) {
-    this.title = ko.observable(data.title);
-    this.location = ko.observable(data.location);
-    this.wikiArticle = ko.observableArray([]);
+    this.title = data.title;
+    this.location = data.location;
+    this.wikiArticle = [];
     this.order = ko.observable();
 
     this.visible = ko.observable(true);
@@ -36,8 +36,8 @@ var AppViewModel = function() {
 
     //iterates through list and adds wikipedia link, if applicable
     self.locationList().forEach(function(locationItem) {
-        var title = locationItem.title();
-        var article = locationItem.wikiArticle();
+        var title = locationItem.title;
+        var article = locationItem.wikiArticle;
 
         loadWikiData(title, article);
 
@@ -99,7 +99,7 @@ AppViewModel.prototype.filteredItems = ko.computed(function() {
 
         return ko.utils.arrayFilter(self.locationList(), function(locationItem) {
 
-            var string = locationItem.title().toLowerCase();
+            var string = locationItem.title.toLowerCase();
             var result = (string.search(filter) >= 0);
             locationItem.visible(result);
 

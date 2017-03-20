@@ -16237,9 +16237,9 @@
 
 	//location constructor for items in locationList();
 	var Location = function Location(data) {
-	    this.title = _knockout2.default.observable(data.title);
-	    this.location = _knockout2.default.observable(data.location);
-	    this.wikiArticle = _knockout2.default.observableArray([]);
+	    this.title = data.title;
+	    this.location = data.location;
+	    this.wikiArticle = [];
 	    this.order = _knockout2.default.observable();
 
 	    this.visible = _knockout2.default.observable(true);
@@ -16262,8 +16262,8 @@
 
 	    //iterates through list and adds wikipedia link, if applicable
 	    self.locationList().forEach(function (locationItem) {
-	        var title = locationItem.title();
-	        var article = locationItem.wikiArticle();
+	        var title = locationItem.title;
+	        var article = locationItem.wikiArticle;
 
 	        (0, _Wikipedia2.default)(title, article);
 	    });
@@ -16319,7 +16319,7 @@
 
 	        return _knockout2.default.utils.arrayFilter(self.locationList(), function (locationItem) {
 
-	            var string = locationItem.title().toLowerCase();
+	            var string = locationItem.title.toLowerCase();
 	            var result = string.search(filter) >= 0;
 	            locationItem.visible(result);
 
