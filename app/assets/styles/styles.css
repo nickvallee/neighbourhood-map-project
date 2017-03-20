@@ -21,6 +21,12 @@
         left: 32.5%;
     }
 }
+
+.warning {
+    font-color: red;
+    font-size: 30px;
+}
+
 .options-box {
     display: flex;
     flex-flow: column nowrap;

@@ -16266,8 +16266,6 @@
 	        var article = locationItem.wikiArticle();
 
 	        (0, _Wikipedia2.default)(title, article);
-
-	        //count increments as order is recorded into the obserable array
 	    });
 
 	    //increments as .order value is update in locationItem
@@ -16282,8 +16280,15 @@
 	    //click on list item, corresponding marker will bounce, and info window will open
 	    self.showInfo = function (locationItem) {
 	        var currentMarker = markers[locationItem.order()];
-
 	        currentMarker.activateFromList();
+	    };
+
+	    self.showListings = function () {
+	        _Map2.default.showListings();
+	    };
+
+	    self.hideListings = function () {
+	        _Map2.default.hideListings();
 	    };
 	};
 
@@ -16585,9 +16590,9 @@
 	        };
 	    }
 	    //shows listings
-	    document.getElementById('show-listings').addEventListener('click', showListings);
+	    //document.getElementById('show-listings').addEventListener('click', showListings);
 	    //hide listings
-	    document.getElementById('hide-listings').addEventListener('click', hideListings);
+	    //document.getElementById('hide-listings').addEventListener('click', hideListings);
 	};
 
 	// This function populates the infowindow when the marker is clicked. We'll only allow
@@ -16621,14 +16626,23 @@
 
 	                checkForArticles();
 
-	                //populates rest of info window
-	                infowindow.setContent('<div>' + infoWindowTitle + '</div><div id="pano"></div>');
+	                var mainContent = '<div>' + infoWindowTitle + '</div><div id="pano"></div>';
+	                var noArticleMessage = '<p class="warning"> found no wikipedia article for ' + infoWindowTitle + '</p>';
+	                //populates rest of info window.
+	                //if wikipedia article does not exist, it adds noArticleMessage
+	                if (!marker.wikiArticles.length) {
+	                    infowindow.setContent(noArticleMessage + mainContent);
+	                } else {
+	                    infowindow.setContent(mainContent);
+	                }
+
 	                var panoramaOptions = {
 	                    position: nearStreetViewLocation,
 	                    pov: {
 	                        heading: heading,
 	                        pitch: 30
 	                    }
+
 	                };
 
 	                var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
@@ -16690,13 +16704,22 @@
 	    return markerImage;
 	}
 
+	//if google maps cannot be retreived, sends alert message
+	var googleError = function googleError() {
+	    alert('Google Maps not responding');
+	};
+
 	//webpack sets initMap to a local variable by default
 	//this sets initMap to global
 	window.initMap = initMap;
+	window.googleError = googleError;
 
 	exports.default = {
 	    markers: markers,
 	    initMap: initMap,
+	    showListings: showListings,
+	    hideListings: hideListings,
+	    googleError: googleError,
 	    toggleBounce: toggleBounce,
 	    populateInfoWindow: populateInfoWindow
 

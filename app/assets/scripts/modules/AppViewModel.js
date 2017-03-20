@@ -41,8 +41,6 @@ var AppViewModel = function() {
 
         loadWikiData(title, article);
 
-        //count increments as order is recorded into the obserable array
-
     });
 
     //increments as .order value is update in locationItem
@@ -58,11 +56,17 @@ var AppViewModel = function() {
     //click on list item, corresponding marker will bounce, and info window will open
     self.showInfo = function(locationItem) {
         var currentMarker = markers[locationItem.order()];
-
-
         currentMarker.activateFromList();
 
     };
+
+    self.showListings = function() {
+        map.showListings();
+    }
+
+    self.hideListings = function() {
+        map.hideListings();
+    }
 };
 
 //create instance of AppViewModel
