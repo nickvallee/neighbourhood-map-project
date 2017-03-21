@@ -15,14 +15,22 @@
 
 }
 
-.map-canvas {
-    bottom: 0px;
+
+.map-div {
+
     height: 100%;
-    left: 31.2%;
-    position: absolute;
-    right: 0px;
-    @mixin atLarge {
-        left: 32.5%;
+    width: 100%;
+
+    &__canvas {
+        bottom: 0px;
+        height: 100%;
+        width: 100%;
+        left: 31.2%;
+        position: absolute;
+        right: 0px;
+        @mixin atLarge {
+            left: 32.5%;
+        }
     }
 }
 
