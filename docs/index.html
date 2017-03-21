@@ -17,25 +17,26 @@
             <h1 class="options-box__header">Mile End/ Little Italy</h1>
             <p class="options-box__attribution">Powered by Wikipedia and Google Maps</p>
             <div class="options-box__show-hide">
-                <input id="show-listings" type="button" value="Show Listings">
-                <input id="hide-listings" type="button" value="Hide Listings">
+                <input class="show-listings" type="button" value="Show Listings" data-bind="click: showListings">
+                <input class="hide-listings" type="button" value="Hide Listings" data-bind="click: hideListings">
             </div>
             <div class="options-box__search" id="search">
-                <input class="options-box__search__search-box" id="search-box" data-bind="textInput: searchTerm, valueUpdate: 'afterkeydown'" />
+                <input class="options-box__search__search-box" id="search-box" data-bind="textInput: searchTerm" />
             </div>
             <ul class="options-box__list results" id="results" data-bind="foreach: filteredItems">
-                <li data-bind="text: title, event: { click: $parent.showInfo}"></li>
+                <li data-bind="text: title, click: $parent.showInfo"></li>
             </ul>
         </div>
-
-        <div id="map">
+        <div class="map-div">
+            <div id="map" class="map-div__canvas">
+            </div>
         </div>
     </div>
 
 
-<script src="assets/scripts/App-3df6f2a4e7.js"></script>
+<script src="assets/scripts/App-692d1b8f79.js"></script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyA56O00SWz5jCIbOA4AHsa9Ei5_ObpQlV8&v=3&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyA56O00SWz5jCIbOA4AHsa9Ei5_ObpQlV8&v=3&callback=initMap" onerror="googleError()"></script>
 
 </body>
 
