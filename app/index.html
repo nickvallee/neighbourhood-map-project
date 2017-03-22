@@ -23,7 +23,7 @@
                 <input class="hide-listings" type="button" value="Hide Listings" data-bind="click: hideListings">
             </div>
             <div class="options-box__search" id="search">
-                <input class="options-box__search__search-box" id="search-box" data-bind="textInput: searchTerm" />
+                <input class="options-box__search__search-box" id="search-box" data-bind="textInput: searchTerm">
             </div>
             <ul class="options-box__list results" id="results" data-bind="foreach: filteredItems">
                 <li data-bind="text: title, click: $parent.showInfo"></li>

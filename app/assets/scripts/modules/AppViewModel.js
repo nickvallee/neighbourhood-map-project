@@ -24,7 +24,7 @@ var AppViewModel = function() {
     var self = this;
 
     //filters list items and marker based on value
-    this.searchTerm = ko.observable("");
+    this.searchTerm = ko.observable('');
 
     //create observable array that populates LocationList
     this.locationList = ko.observableArray([]);
@@ -62,11 +62,11 @@ var AppViewModel = function() {
 
     self.showListings = function() {
         map.showListings();
-    }
+    };
 
     self.hideListings = function() {
         map.hideListings();
-    }
+    };
 };
 
 //create instance of AppViewModel

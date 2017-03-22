@@ -162,6 +162,9 @@ var initMap = function() {
             this.setIcon(defaultIcon);
         });
 
+        //drops markers onto map on load
+        showListings();
+
         //will populate info windwo and bounce marker when list item is clicked on
         marker.activateFromList = function() {
             toggleBounce(this);
@@ -276,6 +279,11 @@ function showListings() {
         bounds.extend(markers[i].position);
     }
     map.fitBounds(bounds);
+
+    //keeps markers in the bounds of the visible map
+    google.maps.event.addDomListener(window, 'resize', function() {
+    map.fitBounds(bounds); // `bounds` is a `LatLngBounds` object
+    });
 }
 // This function will loop through the listings and hide them all.
 function hideListings() {
@@ -300,12 +308,12 @@ function makeMarkerIcon(markerColor) {
 //if google maps cannot be retreived, sends alert message
 var googleError = function() {
     alert('Google Maps not responding');
-}
+};
 
 //webpack sets initMap to a local variable by default
 //this sets initMap to global
 window.initMap = initMap;
-window.googleError = googleError
+window.googleError = googleError;
 
 export default {
     markers: markers,

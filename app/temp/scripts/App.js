@@ -16250,7 +16250,7 @@
 	    var self = this;
 
 	    //filters list items and marker based on value
-	    this.searchTerm = _knockout2.default.observable("");
+	    this.searchTerm = _knockout2.default.observable('');
 
 	    //create observable array that populates LocationList
 	    this.locationList = _knockout2.default.observableArray([]);
@@ -16579,6 +16579,9 @@
 	            this.setIcon(defaultIcon);
 	        });
 
+	        //drops markers onto map on load
+	        showListings();
+
 	        //will populate info windwo and bounce marker when list item is clicked on
 	        marker.activateFromList = function () {
 	            toggleBounce(this);
@@ -16689,6 +16692,11 @@
 	        bounds.extend(markers[i].position);
 	    }
 	    map.fitBounds(bounds);
+
+	    //keeps markers in the bounds of the visible map
+	    google.maps.event.addDomListener(window, 'resize', function () {
+	        map.fitBounds(bounds); // `bounds` is a `LatLngBounds` object
+	    });
 	}
 	// This function will loop through the listings and hide them all.
 	function hideListings() {
