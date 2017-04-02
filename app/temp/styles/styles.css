@@ -4,7 +4,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: red;
+  background-color: #2f5572;
+
 }
 
 input {
@@ -35,6 +36,7 @@ input {
 .map-div__canvas {
   height: 100%;
   width: 100%;
+
 }
 
 .options-box {
@@ -48,42 +50,71 @@ input {
     -webkit-box-flex: 0;
         -ms-flex: 0 1 auto;
             flex: 0 1 auto;
-    background: #2e7696;
+    background: #2f5572;
     z-index: 60;
     width: 30%;
+    max-width: 250px;
     padding: 20px 10px 0 20px;
     line-height: 35px;
+    box-shadow: 20px 5px 15px -19px rgba(0,0,0,0.75);
 }
 
 .options-box__header {
   color: white;
   font-size: 20px;
+  font-weight: 200;
+  padding: 0 0 0 3px;
   margin: 0 0 0 0;
-  text-align: center;
   line-height: 20px;
+  text-align: left;
+
+}
+
+@media (min-width: 1010px) {
+
+  .options-box__header {
+    padding: 0 0 0 15px;
+
+  }
+
 }
 
 .options-box__attribution {
   font-size: 0.7rem;
-  text-align: center;
   line-height: 10px;
+  text-align: left;
+  padding: 0 0 0 3px;
+
+}
+
+@media (min-width: 1010px) {
+
+  .options-box__attribution {
+    padding: 0 0 0 15px;
+
+  }
+
 }
 
 .options-box__show-hide {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin: 0 1% 3% 1%;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  margin: 0 0 1% 0;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  max-width: 226.5px;
+
 }
 
 @media (min-width: 770px) {
 
   .options-box__show-hide {
-    margin: 0 5% 3% 0;
+    margin: 0 0 0 0;
+
   }
+
 }
 
 .options-box__search {
@@ -93,11 +124,14 @@ input {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
-  margin: 1% 0 1% 2.5%;
+  margin: 3% 0 1% 0;
+
 }
 
 .options-box__search__search-box {
-  width: 92%;
+  width: 100%;
+  max-width: 220px;
+
 }
 
 .options-box__list {
@@ -108,8 +142,21 @@ input {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  list-style: none;
   margin: 0 0 0 0;
-  padding: 0 0 0 15%;
+  padding: 0 0 0 3px;
+  font-size: .9rem;
+
+}
+
+@media (min-width: 1010px) {
+
+  .options-box__list {
+    padding: 0 0 0 15px;
+    text-align: left;
+
+  }
+
 }
 
 @media (min-width: 1010px) {
@@ -118,7 +165,9 @@ input {
     line-height: 35px;
     padding: 10px 10px 30px 10px;
     text-align: left;
+
   }
+
 }
 
 .warning {
