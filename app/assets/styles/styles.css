@@ -5,6 +5,7 @@
 @import "modules/_map-div";
 @import "modules/_options-box";
 @import "modules/_warning";
+@import "modules/_pano";
 
 .hide-listings,
 .show-listings {

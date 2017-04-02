@@ -171,8 +171,14 @@ input {
 }
 
 .warning {
-    font-color: red;
-    font-size: 30px;
+    color: red;
+    font-size: 15px;
+    font-style: italic;
+}
+
+#pano {
+    width: 200px;
+    height: 200px;
 }
 
 .hide-listings,

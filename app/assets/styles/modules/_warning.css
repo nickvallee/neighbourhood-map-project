@@ -1,4 +1,5 @@
 .warning {
-    font-color: red;
-    font-size: 30px;
+    color: red;
+    font-size: 15px;
+    font-style: italic;
 }

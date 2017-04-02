@@ -224,6 +224,8 @@ function populateInfoWindow(marker, infowindow) {
                 checkForArticles();
 
                 var mainContent = '<div>' + infoWindowTitle + '</div><div id="pano"></div>';
+
+                console.log(mainContent);
                 var noArticleMessage = '<p class="warning"> found no wikipedia article for ' + infoWindowTitle +'</p>';
                 //populates rest of info window.
                 //if wikipedia article does not exist, it adds noArticleMessage
@@ -245,6 +247,8 @@ function populateInfoWindow(marker, infowindow) {
 
                 var panorama = new google.maps.StreetViewPanorama(
                     document.getElementById('pano'), panoramaOptions);
+
+                console.log(panorama);
             } else {
                 infowindow.setContent('<div>' + marker.title + marker.wikiArticles[0] + '</div>' +
                     '<div>No Street View Found</div>');
